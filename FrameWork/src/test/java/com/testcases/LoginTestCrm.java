@@ -28,6 +28,8 @@ public class LoginTestCrm extends BaseClass{
 		loginPage.loginToCrm(excel.getStringData("Login", 0, 0), excel.getStringData("Login", 0, 1));
 
 		// BrowserFactory.close_session(driver);
+		
+		System.out.println("Merge conflict related changes");
 
 	}
 
