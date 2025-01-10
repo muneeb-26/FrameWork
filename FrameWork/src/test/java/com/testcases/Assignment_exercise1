@@ -1,0 +1,78 @@
+package com.testcases;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Assignment_10012025 {
+
+	public static void main(String[] args) throws InterruptedException {
+		/*
+		 * UI Automation
+			On ebay.com website, please automate the following test scenario
+			
+			Scenario 1 – Verify item can be added to Cart
+			1.	Open browser
+			2.	Navigate to ebay.com
+			3.	Search for ‘book’
+			4.	Click on the first book in the list
+			5.	In the item listing page, click on ‘Add to cart’
+			6.	verify the cart has been updated and displays the number of items in the cart as shown below in yellow.
+			
+					 */
+		System.setProperty("webdriver.chrome.driver","C:\\Users\\mnbah\\Documents\\selenium_udemy\\chrome_version_latest\\v131\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+		
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://www.ebay.com");
+		
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.findElement(By.xpath("//input[@aria-label='Search for anything']")).click();
+		driver.findElement(By.xpath("//input[@aria-label='Search for anything']")).sendKeys("book");
+		driver.findElement(By.xpath("//input[@value='Search']")).click();
+		
+		driver.findElement(By.xpath("//ul[@class='srp-results srp-list clearfix']/li[1]/div/div[2]/a")).click();
+		
+		String parent = driver.getWindowHandle();
+		
+		for(String a : driver.getWindowHandles()){
+			
+			if(!a.equalsIgnoreCase(parent)){
+				
+				int add_cart = 0;
+				
+				driver.switchTo().window(a);
+				
+				driver.findElement(By.xpath("//span[text()='Add to cart']")).click();
+				
+				add_cart = add_cart + 1 ; 
+				
+				int expected_cart_count = add_cart;
+				
+				String actual_cart_text= driver.findElement(By.xpath("//li[@id='gh-minicart-hover']/div/a")).getText();
+				
+				int actual_cart_count = Integer.valueOf(actual_cart_text);
+				
+				System.out.println(actual_cart_count);
+				
+				if(expected_cart_count == actual_cart_count){
+					
+					System.out.println("Cart count is correct");
+					
+				}
+				else{
+					System.out.println("Cart count is incorrect");
+					
+				}
+				
+			}
+		}
+		
+		
+		
+		
+	}
+
+}
